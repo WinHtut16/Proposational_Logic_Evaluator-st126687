@@ -3,49 +3,52 @@
 A compiler mini-project built for the **Programming Language and Compiler** course @ AIT (March 2026).
 
 The evaluator accepts propositional logic expressions using the operators `∧` (AND) and `∨` (OR), and produces two outputs:
-- The **truth value** of the expression (`t` or `f`)
-- An equivalent expression in **prefix notation**
+
+* The **truth value** of the expression (`t` or `f`)
+* An equivalent expression in **prefix notation**
 
 ---
 
 ## Features
 
-- Recursive-descent parser with correct operator priority (`∧` binds tighter than `∨`)
-- AST-based evaluation and prefix translation
-- PySide6 GUI with clickable symbol buttons (`t`, `f`, `∧`, `∨`, `(`, `)`)
-- Live keyboard conversion: type `^` or `&` for `∧`, and `|` for `∨`
-- Smart auto-spacing when inserting symbols via buttons
-- Clear error messages for invalid expressions
+* Recursive-descent parser with correct operator priority (`∧` binds tighter than `∨`)
+* AST-based evaluation and prefix translation
+* PySide6 GUI with clickable symbol buttons (`t`, `f`, `∧`, `∨`, `(`, `)`)
+* Live keyboard conversion: type `^` or `&` for `∧`, and `|` for `∨`
+* Smart auto-spacing when inserting symbols via buttons
+* Clear error messages for invalid expressions
 
 ---
 
 ## Project structure
 
 ```
-
 PLC_PROJECT/
 ├── code/
 │   └── src/project/
 │       ├── components/
 │       │   ├── ast/
+│       │   │   ├── __init__.py
 │       │   │   └── statement.py        ← AST node classes (BoolLit, AndNode, OrNode)
-│       │   ├── lexica.py               ← lexer  (sly.Lexer)
-│       │   ├── main.ui                 ← PySide6 designer layout file
+│       │   ├── __init__.py
+│       │   ├── lexica.py               ← lexer (sly.Lexer)
+│       │   ├── main.ui                 ← PySide6 UI layout
 │       │   └── parsers.py              ← recursive-descent parser
-│       └── main.py                     ← application entry point + GUI logic
+│       ├── __init__.py
+│       └── main.py                     ← application entry point (GUI)
 ├── .gitignore
 ├── pyproject.toml
 ├── README.md
-├── uv.lock
-└── report.docx
+└── uv.lock
+```
 
 ---
 
 ## Grammar
 
 ```
-expr  →  term  ( ∨  term  )*
-term  →  atom  ( ∧  atom  )*
+expr  →  term  ( ∨  term )*
+term  →  atom  ( ∧  atom )*
 atom  →  t  |  f  |  ( expr )
 ```
 
@@ -55,10 +58,10 @@ atom  →  t  |  f  |  ( expr )
 
 ## Dependencies
 
-- Python 3.9+
-- [`uv`](https://docs.astral.sh/uv/) for environment management
-- `sly` — lexer/parser library
-- `PySide6` — GUI framework
+* Python 3.9+
+* `sly` — lexer/parser library
+* `PySide6` — GUI framework
+* [`uv`](https://docs.astral.sh/uv/) (optional, for environment management)
 
 ---
 
@@ -68,20 +71,26 @@ atom  →  t  |  f  |  ( expr )
 
 ```bash
 git clone <your-repo-url>
-cd PLC_project/code
+cd PLC_PROJECT/code
 ```
 
+---
+
 ### 2. Install dependencies
+
+#### Option A (recommended - using uv)
 
 ```bash
 uv sync
 ```
 
-If `pyside6-designer` does not launch inside the `uv` context, install PySide6 directly:
+#### Option B (standard pip)
 
 ```bash
 pip install pyside6 sly
 ```
+
+---
 
 ### 3. Run the application
 
@@ -94,16 +103,16 @@ python main.py
 
 ## Running the self-tests
 
-Each component has a built-in self-test. Run them from `src/project/`:
+Run these from `src/project/`:
 
 ```bash
-# Test AST nodes
+# Test AST
 python components/ast/statement.py
 
 # Test lexer
 python components/lexica.py
 
-# Test parser (lexer + parser + AST together)
+# Test parser (full pipeline)
 python components/parsers.py
 ```
 
@@ -111,34 +120,43 @@ python components/parsers.py
 
 ## Usage
 
-### With the GUI
+### GUI
 
-1. Type an expression in the input field, **or** click the symbol buttons to build one.
+1. Enter an expression manually **or** use the symbol buttons.
 2. Press **Evaluate** or hit **Enter**.
-3. The truth value and prefix notation are displayed below.
+3. View:
 
-**Keyboard shortcuts for operators:**
+   * Truth value (`t` or `f`)
+   * Prefix notation
 
-| Key(s) | Inserts |
-|--------|---------|
-| `^` or `&` | `∧` (AND) |
-| `\|` | `∨` (OR) |
-| `Enter` | Evaluate |
+---
+
+### Input rules
+
+* Use lowercase `t` and `f`
+* AND: `∧`, `^`, or `&`
+* OR: `∨` or `|`
+* Parentheses: `( )`
+
+---
 
 ### Example expressions
 
-| Expression | Truth value | Prefix notation |
-|------------|-------------|-----------------|
-| `t` | `t` | `t` |
-| `t ∧ f` | `f` | `∧ t f` |
-| `t ∨ f ∧ f` | `t` | `∨ t ∧ f f` |
-| `(t ∨ f) ∧ f` | `f` | `∧ ∨ t f f` |
-| `f ∨ f ∨ t` | `t` | `∨ ∨ f f t` |
+| Expression    | Truth value | Prefix notation |
+| ------------- | ----------- | --------------- |
+| `t`           | `t`         | `t`             |
+| `t ∧ f`       | `f`         | `∧ t f`         |
+| `t ∨ f ∧ f`   | `t`         | `∨ t ∧ f f`     |
+| `(t ∨ f) ∧ f` | `f`         | `∧ ∨ t f f`     |
+| `f ∨ f ∨ t`   | `t`         | `∨ ∨ f f t`     |
 
 ---
 
 ## Author
+
 Win Htut Naing (st126687)
+
+---
 
 ## License
 
