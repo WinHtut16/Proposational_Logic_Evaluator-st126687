@@ -1,0 +1,8 @@
+[project]
+name = "logic-parser"
+version = "0.1.0"
+description = "Propositional logic parser project"
+dependencies = [
+    "sly",
+    "PySide6"
+]
